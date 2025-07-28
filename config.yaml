@@ -2,7 +2,7 @@ keyword_extraction:
   # Global options
   strategy: ngram                # ngram, tfidf, textrank, rake, basic
   input_file: input/file.txt
-  output_file: domain_keywords_ranked.json
+  output_file: results.json
 
   # --- Ngram strategy options ---
   ngram:
