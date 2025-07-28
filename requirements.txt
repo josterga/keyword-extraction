@@ -1,0 +1,5 @@
+PyYAML
+scikit-learn
+nltk
+spacy
+networkx

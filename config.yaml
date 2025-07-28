@@ -1,0 +1,37 @@
+keyword_extraction:
+  # Global options
+  strategy: ngram                # ngram, tfidf, textrank, rake, basic
+  input_file: input/file.txt
+  output_file: domain_keywords_ranked.json
+
+  # --- Ngram strategy options ---
+  ngram:
+    ngram_sizes: [1, 2, 3]       # n-gram sizes to extract
+    stopwords: []                # list of stopwords to exclude
+
+  # --- TF-IDF strategy options ---
+  tfidf:
+    top_k: 10                    # number of top keywords to extract
+    stopwords: []                # list of stopwords to exclude
+
+  # --- TextRank strategy options ---
+  textrank:
+    top_k: 10                    # number of top keywords to extract
+    stopwords: []                # list of stopwords to exclude
+    window_size: 4               # window size for co-occurrence
+
+  # --- RAKE strategy options ---
+  rake:
+    stopwords: []                # list of stopwords to exclude
+    min_char_length: 1           # minimum character length for a word
+    max_words_length: 5          # maximum number of words in a phrase
+    top_k: 10                    # number of top phrases to extract
+
+  # --- Basic strategy options ---
+  basic:
+    use_lemmatization: true
+    remove_stopwords: true
+    min_word_length: 3
+    min_phrase_length: 2
+    extract_phrases: true
+    spacy_model: en_core_web_sm
