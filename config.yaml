@@ -3,6 +3,8 @@ keyword_extraction:
   strategy: ngram                # ngram, tfidf, textrank, rake, basic
   input_file: input/file.txt
   output_file: results.json
+  stopwords_file: input/stopwords.txt
+  postprocess_prune_stopwords: true
 
   # --- Ngram strategy options ---
   ngram:
