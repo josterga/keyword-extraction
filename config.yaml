@@ -5,6 +5,11 @@ keyword_extraction:
   output_file: results.json
   stopwords_file: input/stopwords.txt
   postprocess_prune_stopwords: true
+  # stopword_prune_mode options:
+  #   remove_if_all_stopwords         # Remove result only if all words are stopwords (best practice, default)
+  #   remove_if_any_stopword          # Remove result if any word is a stopword
+  #   remove_stopwords_within_phrase  # Remove stopwords from within phrases, keep non-stopword words
+  stopword_prune_mode: remove_stopwords_within_phrase
 
   # --- Ngram strategy options ---
   ngram:

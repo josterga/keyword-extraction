@@ -4,6 +4,8 @@ import json
 import os
 
 from keyword_extractor.extractor import KeywordExtractor
+from keyword_extractor.stopword_pruner import prune_stopwords_from_results
+
 
 def load_config(config_path):
     with open(config_path, "r") as f:
@@ -14,34 +16,6 @@ def load_stopwords(stopwords_path):
         return set()
     with open(stopwords_path, "r") as f:
         return set(line.strip().lower() for line in f if line.strip())
-
-def prune_stopwords_from_results(results, stopwords):
-    def is_stopword(term):
-        # Handles both single words and phrases
-        return all(word.lower() in stopwords for word in term.split())
-
-    pruned = {}
-    for strategy, items in results.items():
-        # Items can be list of strings, list of dicts, or list of tuples
-        new_items = []
-        for item in items:
-            if isinstance(item, str):
-                if not is_stopword(item):
-                    new_items.append(item)
-            elif isinstance(item, (list, tuple)):
-                # For n-grams as tuples/lists
-                if not any(word.lower() in stopwords for word in item):
-                    new_items.append(item)
-            elif isinstance(item, dict):
-                # For dicts with 'term' or 'phrase'
-                key = 'term' if 'term' in item else 'phrase' if 'phrase' in item else None
-                if key and not is_stopword(item[key]):
-                    new_items.append(item)
-                # If no key, keep as is
-            else:
-                new_items.append(item)
-        pruned[strategy] = new_items
-    return pruned
 
 def main():
     parser = argparse.ArgumentParser(description="Keyword extraction runner")
@@ -55,6 +29,7 @@ def main():
     output_path = args.output or config.get("output_file", "output.json")
     stopwords_path = config.get("stopwords_file", "stopwords.txt")
     postprocess = config.get("postprocess_prune_stopwords", False)
+    prune_mode = config.get("stopword_prune_mode", "remove_if_all_stopwords")
 
     with open(input_path, "r") as f:
         text = f.read()
@@ -64,8 +39,8 @@ def main():
 
     if postprocess:
         stopwords = load_stopwords(stopwords_path)
-        results = prune_stopwords_from_results(results, stopwords)
-        print(f"Postprocessed results: pruned stopwords using {stopwords_path}")
+        results = prune_stopwords_from_results(results, stopwords, mode=prune_mode)
+        print(f"Postprocessed results: pruned stopwords using {stopwords_path} with mode {prune_mode}")
 
     print("Extraction results:")
     print(results)
