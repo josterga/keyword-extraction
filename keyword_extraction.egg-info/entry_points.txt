@@ -1,0 +1,2 @@
+[console_scripts]
+run-keyword-extractor = scripts.run_keyword_extractor:main
