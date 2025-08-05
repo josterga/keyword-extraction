@@ -1,4 +1,4 @@
-#  `keyword-extraction` — Configurable Keyword Extraction
+#  `keyword_extraction` — Configurable Keyword Extraction
 
 - **Description:**  
   Extracts keywords and phrases from text using multiple strategies, with stopword pruning and lemmatization.
